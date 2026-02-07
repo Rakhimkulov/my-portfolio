@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mardon Rakhimkulov - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div id="preloader" aria-hidden="true">
+        <div class="spinner" aria-hidden="true"></div>
+    </div>
+    <header class="header">
+        <a href="#home" class="logo">Mardon</a>
+        <nav class="navbar">
+            <a href="#home" class="active">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </header>
+
+    <section id="home" class="home">
+        <div class="home-content">
+            <h1>Hi, I'm Raximkulov Mardon</h1>
+            <h3>Backend Developer</h3>
+            <p>Lorem ipsum dolor, 
+                sit amet consectetur adipisicing elit. Similique
+                 incidunt debitis quod, vero molestiae harum 
+                 eaque ipsam, voluptatibus, ipsa unde corrupti
+                  accusantium aliquid accusamus deleniti? Iusto 
+                  quibusdam blanditiis eius. Laboriosam?</p>
+            <div class="btn-box">
+                <a href="#">Hire me</a>
+                <a href="#">Let's Talk</a>
+            </div>      
+        </div>
+        <div class="home-sci">
+            <a href="https://www.facebook.com/zafar.istamkulov.1?locale=ru_RU" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class='bx bxl-facebook'></i></a>
+            <a href="https://t.me/rakhimkulov_dev" target="_blank" rel="noopener noreferrer" aria-label="Telegram"><i class='bx bxl-telegram'></i></a>
+            <a href="https://www.instagram.com/rakhimkulov.08/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class='bx bxl-instagram'></i></a>
+        </div>
+        <span class="home-imgHover"></span>
+    </section>
+    
+    <!-- About section -->
+    <section id="about" class="about">
+        <div class="about-container">
+            <div class="about-photo" aria-hidden="true"></div>
+            <div class="about-content">
+                <h2>About Mardon</h2>
+                <p>Hello — I'm <strong>Mardon</strong> (Rakhimkulov). I'm a Backend Developer with experience building APIs, working with databases, and creating reliable server-side systems. I enjoy solving problems, optimizing performance, and learning new technologies.</p>
+                <ul class="about-stats">
+                    <li><strong>Experience:</strong> 3+ years</li>
+                    <li><strong>Skills:</strong> Node.js, Python, SQL</li>
+                    <li><strong>Location:</strong> Uzbekistan</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Services placeholder -->
+    <section id="services" class="section-default">
+        <div class="container">
+            <h2>Services</h2>
+            <p>Backend development, API design, database optimization. Detailed services will be added here.</p>
+        </div>
+    </section>
+
+    <!-- Portfolio placeholder -->
+    <section id="portfolio" class="section-default">
+        <div class="container">
+            <h2>Portfolio</h2>
+            <p>Projects and case studies will appear here.</p>
+        </div>
+    </section>
+
+    <!-- Contact placeholder -->
+    <section id="contact" class="section-default">
+        <div class="container">
+            <h2>Contact</h2>
+            <p>Get in touch via Telegram or Instagram (links in footer).</p>
+        </div>
+    </section>
+    <script>
+        window.addEventListener('load', function(){
+            document.body.classList.add('loaded');
+            const p = document.getElementById('preloader');
+            if(p){
+                p.classList.add('hide');
+                setTimeout(()=> p.remove(), 700);
+            }
+            // reveal about if hash present on load
+            if(location.hash === '#about'){
+                const about = document.getElementById('about');
+                if(about) setTimeout(()=> about.classList.add('active'), 450);
+            }
+        });
+
+        // on logo click, add reveal class after scroll
+        document.addEventListener('DOMContentLoaded', function(){
+            const logo = document.querySelector('.logo');
+            const about = document.getElementById('about');
+            const hamburger = document.querySelector('.hamburger');
+            const navbar = document.querySelector('.navbar');
+            
+            if(hamburger && navbar){
+                hamburger.addEventListener('click', function(){
+                    navbar.classList.toggle('active');
+                    hamburger.classList.toggle('active');
+                });
+                
+                // Close menu when a link is clicked
+                const navLinks = navbar.querySelectorAll('a');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function(){
+                        navbar.classList.remove('active');
+                        hamburger.classList.remove('active');
+                    });
+                });
+            }
+            
+            if(logo && about){
+                logo.addEventListener('click', function(){
+                    // allow browser to scroll to #about first, then reveal
+                    setTimeout(()=> about.classList.add('active'), 600);
+                });
+
+                // also reveal when section enters viewport
+                const io = new IntersectionObserver(entries => {
+                    entries.forEach(e => {
+                        if(e.isIntersecting){
+                            about.classList.add('active');
+                            io.unobserve(about);
+                        }
+                    })
+                }, {threshold: 0.25});
+                io.observe(about);
+            }
+        });
+    </script>
+    <script>
+        // Auto-update active nav link based on visible section
+        document.addEventListener('DOMContentLoaded', function(){
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.navbar a');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (!entry.target.id) return;
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(a => a.classList.remove('active'));
+                        const active = document.querySelector('.navbar a[href="#' + entry.target.id + '"]');
+                        if (active) active.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.55 });
+
+            sections.forEach(s => observer.observe(s));
+        });
+    </script>
+</body>
+</html>
