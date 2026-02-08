@@ -261,10 +261,14 @@ body{
 
 .home-sci {
     position: absolute;
-    bottom: 40px;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
     width: 170px;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
 }
 
 .home-sci::before {
@@ -560,7 +564,11 @@ html{scroll-behavior:smooth}
     .home-sci{
         position: relative;
         bottom: auto;
+        left: auto;
+        top: auto;
+        transform: none;
         width: 100%;
+        flex-direction: row;
         justify-content: center;
         gap: 20px;
     }
@@ -641,6 +649,7 @@ html{scroll-behavior:smooth}
     }
     .home-sci{
         width: 100%;
+        flex-direction: row;
         gap: 15px;
         margin-top: 20px;
         padding-bottom: 20px;
